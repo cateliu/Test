@@ -2,7 +2,7 @@
 clear
 clc
 tevent = 1126259462.422;
-deltat = 5;
+deltat = 0.2;
 
 strain_H = h5read('H-H1_LOSC_4_V1-1126259446-32.hdf5','/strain/Strain');
 gpsStart_H = cast(h5read('H-H1_LOSC_4_V1-1126259446-32.hdf5','/meta/GPSstart'),'double');
@@ -26,13 +26,27 @@ xlabel("time (s) since "+num2str(tevent))
 ylabel('strain')
 title('Advanced LIGO strain data near GW150914')
 legend('H1 strain','L1 strain')
-% fs = 4096;
-% NFFT = fs;
-% fmin = 10;
-% fmax = 2000;
-% [P_H,freqs_H] = pwelch(strain_H,fs);
-% psd_H = interp1(freqs_H,P_H);
-% loglog(freqs_H,sqrt(P_H))
+%% 功率谱密度
+figure
+fs = 4096;
+NFFT = 2048;
+fmin = 10;
+fmax = 2000;
+[P_H,freqs_H] = pwelch(strain_H,fs,NFFT,fs,fs);
+[P_L,freqs_L] = pwelch(strain_L,fs,NFFT,fs,fs);
+freqs_H1 = min(freqs_H):(max(freqs_H)-min(freqs_H))/length(min(freqs_H))/2:max(freqs_H);
+freqs_L1 = min(freqs_L):(max(freqs_L)-min(freqs_L))/length(min(freqs_L))/2:max(freqs_L);
+psd_H = interp1(freqs_H,P_H,freqs_H1);
+psd_L = interp1(freqs_L,P_L,freqs_L1);
+loglog(freqs_H,sqrt(P_H))
+hold on
+loglog(freqs_L,sqrt(P_L))
+ylabel('ASD(strain/rtHz)')
+xlabel('Freq(Hz)')
+title('Advanced LIGO strain data near GW150914')
+axis([fmin fmax 1e-24 1e-19])
+%%
+
 
 %% 大作业
 [time strain] = textread('observed-H.txt','%f %f');
