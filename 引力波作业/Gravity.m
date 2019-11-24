@@ -2,7 +2,7 @@
 clear
 clc
 tevent = 1126259462.422;
-deltat = 0.2;
+deltat = 5;
 
 strain_H = h5read('H-H1_LOSC_4_V1-1126259446-32.hdf5','/strain/Strain');
 gpsStart_H = cast(h5read('H-H1_LOSC_4_V1-1126259446-32.hdf5','/meta/GPSstart'),'double');
@@ -19,7 +19,7 @@ index_H = find(Time_H>=tevent-deltat & Time_H<=tevent+deltat);
 Time_L = gpsStart_L:ts_L:gpsStart_L+length(qmask_L);
 index_L = find(Time_L>=tevent-deltat & Time_L<=tevent+deltat);
 
-plot(Time_H(index_H)-tevent-6.9e-3,-strain_H(index_H),'r')
+plot(Time_H(index_H)-tevent,strain_H(index_H),'r')
 hold on
 plot(Time_L(index_L)-tevent,strain_L(index_L),'g')
 xlabel("time (s) since "+num2str(tevent))
@@ -36,19 +36,29 @@ fmax = 2000;
 [P_L,freqs_L] = pwelch(strain_L,fs,NFFT,fs,fs);
 freqs_H1 = min(freqs_H):(max(freqs_H)-min(freqs_H))/length(min(freqs_H))/2:max(freqs_H);
 freqs_L1 = min(freqs_L):(max(freqs_L)-min(freqs_L))/length(min(freqs_L))/2:max(freqs_L);
+
 psd_H = interp1(freqs_H,P_H,freqs_H1);
 psd_L = interp1(freqs_L,P_L,freqs_L1);
-loglog(freqs_H,sqrt(P_H))
+loglog(freqs_H,sqrt(P_H),'r')
 hold on
-loglog(freqs_L,sqrt(P_L))
+loglog(freqs_L,sqrt(P_L),'g')
 ylabel('ASD(strain/rtHz)')
 xlabel('Freq(Hz)')
+legend('H1 strain','L1 strain')
 title('Advanced LIGO strain data near GW150914')
 axis([fmin fmax 1e-24 1e-19])
-%%
-
+%%  白化 whitening
+%% d带通滤波器
+[bb,ab] = butter(4, [20./2./fs, 300./2./fs], 'bandpass');
+y= bandpass(strain_H,[150,200], 4096);
+plot(y)
+axis([0 0.4*4096 -1.5e-21 1.5e-21])
+strain_white = filtfilt(bb, ab, strain_H);
 
 %% 大作业
+clear
+clc
+close all
 [time strain] = textread('observed-H.txt','%f %f');
 [time_l,strain_l] = textread('observed-L.txt','%f %f','headerlines',1);
 time = time-6.9e-3;
@@ -62,42 +72,31 @@ grid on
 xlabel('Time (s)','FontSize',12)
 ylabel('Strain(10^{-21})')
 xlim([0.25 0.45])
-
-
-%% 第一问
-clc;
-% clear;
-
-f = @(theta,phi) abs(0.5*(1+cos(theta).^2).*cos(2*phi));
-f_x = @(theta,phi) abs(cos(theta).*sin(2*phi));
-theta = linspace(0,pi,200);
-phi = linspace(0,2*pi,400);
-[Theta,Phi] = meshgrid(theta,phi);
-T = f(Theta,Phi);
-[X,Y,Z] = ToRad(T,Theta,Phi);
-mesh(X,Y,Z)
-xlabel('x')
-ylabel('y')
-zlabel('z')
-title('F_+(\theta,\phi)')
 figure
-T1 = f_x(Theta,Phi);
-[X1,Y1,Z1] = ToRad(T1,Theta,Phi);
-mesh(X1,Y1,Z1)
-xlabel('x')
-ylabel('y')
-zlabel('z')
-title('F_\times(\theta,\phi)')
-T3 = sqrt(T1.^2+T.^2);
+T_index = find(strain(2:end).*strain(1:end-1)<0);
+T_index_t = T_index(find(time(T_index)>0.36&time(T_index)<0.426));
+plot(time,strain,'.')
+hold on
+grid on
+plot(time(T_index),strain(T_index),'--')
+plot(time(T_index_t),strain(T_index_t),'+')
+f = 1./2./(time(T_index_t(2:end))-time(T_index_t(1:end-1)));
+f_1 = f.^(-8/3);
 figure
-[X3,Y3,Z3] = ToRad(T3,Theta,Phi);
-mesh(X3,Y3,Z3)
-xlabel('x')
-ylabel('y')
-zlabel('z')
-title('$\sqrt{F^2_+(\theta,\phi)+F^2_\times(\theta,\phi)}$','interpreter','latex')
-function [x,y,z]=ToRad(T,theta,phi)
-x = T.*sin(theta).*cos(phi);
-y = T.*sin(theta).*sin(phi);
-z = T.*cos(theta);
+plot(time(T_index_t(1:end-1)),f_1,'.')
+%%
+
+
+figure
+fs = 4096;
+window = hamming(fs/16);
+% [S F T P] = ;
+strain_w = bandpass(strain,[35,350], 4096);
+[S F T P] = spectrogram(strain_w,4096/16,4096/16-1,fs/16,fs,'yaxis');
+mesh(T,F,P)
+axis([0,0.4 0 350])
+function strain_whiten=whiten(strain, interp_psd, dt)
+Nt = length(strain);
+
+
 end
