@@ -22,7 +22,7 @@ I_1 = integral2(E_1,-mu,mu,-mu,mu,'Method','iterated');
 % I_1 = Inter(E_1,500,500);
 % I_1 = sum(sum(E_1(X,Y)))*ds^2;
 
-alpha = -1e-3:1e-5:1e-3;
+alpha = -8e-3:1e-4*2:8e-3;
 delta = alpha;
 
 
@@ -42,7 +42,7 @@ for j = 1:length(alpha)
     j
 end
 [A,B]=meshgrid(alpha*1e3,delta*1e3);
-mesh(A,B,abs(Eta));
+mesh(A,B,real(Eta));
 xlabel('Horizon tilt /mrad')
 ylabel('Vertical /mrad')
 zlabel('Hetreodyne efficiency')
