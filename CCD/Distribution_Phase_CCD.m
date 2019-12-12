@@ -5,11 +5,9 @@
 clear
 clc
 format long
+delta = 2e-3;
 
-alpha = -1e-3:1e-4:1e-3;
-delta = 0.2e-3;
-
-w_0 = 0.3125e-3;
+w_0 = 2e-3;
 lambda = 1064e-9;
 k = 2*pi/lambda;
 z_r = pi*1*w_0^2/lambda;
