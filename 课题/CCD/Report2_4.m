@@ -49,8 +49,8 @@ xlabel('x轴像素');ylabel('y轴像素');zlabel('相位 [rad]');title('理想的相位')
 format long
 phi_rev = FourPoint(I,10);
 subplot 222
-mesh(phi_rev)
-xlabel('x轴像素');ylabel('y轴像素');zlabel('相位 [rad]');title('四点算法计算后的相位')
+mesh(X,Y,phi_rev)
+xlabel('x轴像素');ylabel('y轴像素');zlabel('相位 [rad]');title('使用四点算法计算得到的相位分布');axis([-128 128 -160 160])
 %%  消除相位跳变
 phi_smoth = Smooth(phi_rev);
 subplot 223

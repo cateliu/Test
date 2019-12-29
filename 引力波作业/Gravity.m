@@ -73,6 +73,7 @@ xlabel('Time (s)','FontSize',12)
 ylabel('Strain(10^{-21})')
 xlim([0.25 0.45])
 figure
+spectrogram(strain,128, 120, 128, 16384,'yaxis')
 T_index = find(strain(2:end).*strain(1:end-1)<0);
 T_index_t = T_index(find(time(T_index)>0.36&time(T_index)<0.426));
 plot(time,strain,'.')

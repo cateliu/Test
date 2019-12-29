@@ -3,7 +3,7 @@
 clear
 clc
 % 入射角度
-alpha = -5e-3:1e-5:5e-3;
+alpha = -5e-3:1e-4:5e-3;
 % 尺寸
 mu = 30e-6;
 r = 0.5e-3;
@@ -37,7 +37,7 @@ parfor j = 1:length(alpha)
 end
 alpha = alpha*1e3;
 %%
-plot(alpha,abs(I(:,1)),alpha,abs(I(:,2))-0.005,alpha,abs(I(:,3))-0.01,alpha,abs(I(:,4))-0.015);
+plot(alpha,abs(I(:,1)),'--',alpha,abs(I(:,2))-0.005,'--',alpha,abs(I(:,3))-0.01,'--',alpha,abs(I(:,4))-0.015,'--');
 hold on
 plot(alpha,abs(C(:,1)),alpha,abs(C(:,2))-0.005,alpha,abs(C(:,3))-0.01,alpha,abs(C(:,4))-0.015);
 legend('A象限','B象限','C象限','D象限','CCD(1)','CCD(2)','CCD(3)','CCD(4)')
