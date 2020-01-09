@@ -32,13 +32,12 @@ fs = 4096;
 NFFT = 2048;
 fmin = 10;
 fmax = 2000;
-[P_H,freqs_H] = pwelch(strain_H,fs,NFFT,fs,fs);
-[P_L,freqs_L] = pwelch(strain_L,fs,NFFT,fs,fs);
-freqs_H1 = min(freqs_H):(max(freqs_H)-min(freqs_H))/length(min(freqs_H))/2:max(freqs_H);
-freqs_L1 = min(freqs_L):(max(freqs_L)-min(freqs_L))/length(min(freqs_L))/2:max(freqs_L);
+[P_H,freqs_H] = pburg(strain_H,2047,0:2048,fs);
+[P_L,freqs_L] = pburg(strain_L,2047,0:2048,fs);
+% [P_L,freqs_L] = pwelch(strain_L,fs,NFFT,fs,fs);
 
-psd_H = interp1(freqs_H,P_H,freqs_H1);
-psd_L = interp1(freqs_L,P_L,freqs_L1);
+psd_H =@(freqs) interp1(freqs_H,P_H,freqs);
+psd_L =@(freqs) interp1(freqs_L,P_L,freqs);
 loglog(freqs_H,sqrt(P_H),'r')
 hold on
 loglog(freqs_L,sqrt(P_L),'g')
@@ -48,6 +47,11 @@ legend('H1 strain','L1 strain')
 title('Advanced LIGO strain data near GW150914')
 axis([fmin fmax 1e-24 1e-19])
 %%  °×»¯ whitening
+strain_H1_whiten = whiten(strain_H,psd_H,ts_H);
+strain_L1_whiten = whiten(strain_L,psd_L,ts_L);
+[bb,ab] = butter(4,[20*2./fs,300*2./fs],'bandpass');
+strain_H1_whitenbp = filtfilt(bb,ab,strain_H1_whiten);
+
 %% d´øÍ¨ÂË²¨Æ÷
 [bb,ab] = butter(4, [20./2./fs, 300./2./fs], 'bandpass');
 y= bandpass(strain_H,[150,200], 4096);
@@ -72,6 +76,7 @@ grid on
 xlabel('Time (s)','FontSize',12)
 ylabel('Strain(10^{-21})')
 xlim([0.25 0.45])
+%%
 figure
 spectrogram(strain,128, 120, 128, 16384,'yaxis')
 T_index = find(strain(2:end).*strain(1:end-1)<0);
@@ -86,18 +91,26 @@ f_1 = f.^(-8/3);
 figure
 plot(time(T_index_t(1:end-1)),f_1,'.')
 %%
-
-
-figure
-fs = 4096;
-window = hamming(fs/16);
-% [S F T P] = ;
-strain_w = bandpass(strain,[35,350], 4096);
-[S F T P] = spectrogram(strain_w,4096/16,4096/16-1,fs/16,fs,'yaxis');
-mesh(T,F,P)
-axis([0,0.4 0 350])
-function strain_whiten=whiten(strain, interp_psd, dt)
+strain_H1_whiten = whiten(strain_H,psd_H,ts_H);
+strain_L1_whiten = whiten(strain_L,psd_L,ts_L);
+[bb,ab] = butter(4,[20*2./fs,300*2./fs],'bandpass');
+strain_H1_whitenbp = filtfilt(bb,ab,strain_H1_whiten);
+function white_ht = whiten(strain, interp_psd, dt)
 Nt = length(strain);
-
+if mod(Nt,2)==0
+    freqs = (0:Nt/2)/dt/Nt;
+elseif mod(Nt,2)==1
+    freqs = (0:(Nt-1)/2)/dt/Nt;
+end
+white1 = 1:Nt;
+hf = fft(strain)';
+% P2 = abs(hf/length(hf));
+% P1 = P2(1:length(hf)/2+1);
+% P1(2:end-1) = 2*P1(2:end-1);
+hf1 = hf(end-length(freqs)+1:end);
+white_hf = hf1./(sqrt(interp_psd(freqs)/dt/2));
+white1( 65536:-1:1)=white_hf(2:end)/2;
+white1(65537:131072) = white_hf(2:end)/2;
+white_ht = ifft(white1);
 
 end
