@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999991 (MiKTeX 2.9.7140 64-bit) (preloaded format=xelatex 2019.9.26)  10 JAN 2020 21:21
+This is XeTeX, Version 3.14159265-2.6-0.999991 (MiKTeX 2.9.7140 64-bit) (preloaded format=xelatex 2019.9.26)  11 JAN 2020 22:50
 entering extended mode
 **C:/Users/cate_liu/Desktop/Github/引力波作业/Latex_引力波/引力波报告.tex
 (C:/Users/cate_liu/Desktop/Github/引力波作业/Latex_引力波/引力波报告.tex
@@ -766,19 +766,22 @@ able
 [2]
 File: figure4.png Graphic file (type bmp)
 <figure4.png>
- [3] [4] (引力波报告.aux)
+ [3]
+File: figure-5.png Graphic file (type bmp)
+<figure-5.png>
+ [4] [5] [6] (引力波报告.aux)
 
 LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 0.41063pt have occurred.
 
  ) 
 Here is how much of TeX's memory you used:
- 18409 strings out of 427669
- 412340 string characters out of 3149418
- 476946 words of memory out of 3000000
- 22294 multiletter control sequences out of 15000+200000
+ 18415 strings out of 427669
+ 412408 string characters out of 3149418
+ 477946 words of memory out of 3000000
+ 22299 multiletter control sequences out of 15000+200000
  541221 words of font info for 99 fonts, out of 3000000 for 9000
  1348 hyphenation exceptions out of 8191
- 54i,9n,68p,501b,481s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 54i,13n,68p,501b,481s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on 引力波报告.pdf (4 pages).
+Output written on 引力波报告.pdf (6 pages).

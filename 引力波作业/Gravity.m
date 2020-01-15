@@ -76,9 +76,7 @@ grid on
 xlabel('Time (s)','FontSize',12)
 ylabel('Strain(10^{-21})')
 xlim([0.25 0.45])
-%%
-figure
-spectrogram(strain,128, 120, 128, 16384,'yaxis')
+
 T_index = find(strain(2:end).*strain(1:end-1)<0);
 T_index_t = T_index(find(time(T_index)>0.36&time(T_index)<0.426));
 plot(time,strain,'.')
@@ -90,27 +88,23 @@ f = 1./2./(time(T_index_t(2:end))-time(T_index_t(1:end-1)));
 f_1 = f.^(-8/3);
 figure
 plot(time(T_index_t(1:end-1)),f_1,'.')
+ylabel('(Frequency/Hz)^{-8/3}')
+xlabel('Time(s)')
+title('Linear fit of f_{GW}^{-8/3}(t)')
 %%
-strain_H1_whiten = whiten(strain_H,psd_H,ts_H);
-strain_L1_whiten = whiten(strain_L,psd_L,ts_L);
-[bb,ab] = butter(4,[20*2./fs,300*2./fs],'bandpass');
-strain_H1_whitenbp = filtfilt(bb,ab,strain_H1_whiten);
-function white_ht = whiten(strain, interp_psd, dt)
-Nt = length(strain);
-if mod(Nt,2)==0
-    freqs = (0:Nt/2)/dt/Nt;
-elseif mod(Nt,2)==1
-    freqs = (0:(Nt-1)/2)/dt/Nt;
-end
-white1 = 1:Nt;
-hf = fft(strain)';
-% P2 = abs(hf/length(hf));
-% P1 = P2(1:length(hf)/2+1);
-% P1(2:end-1) = 2*P1(2:end-1);
-hf1 = hf(end-length(freqs)+1:end);
-white_hf = hf1./(sqrt(interp_psd(freqs)/dt/2));
-white1( 65536:-1:1)=white_hf(2:end)/2;
-white1(65537:131072) = white_hf(2:end)/2;
-white_ht = ifft(white1);
+e = 0:0.001:0.8;
+q = 1:0.1:100;
+[E,Q] = meshgrid(q,e);
+l = (1-e.^2).^(-7/2).*(1+73/24*e.^2+37/96*e.^4);
+M0 = 2e30;
+c = 3e8;
+G = 6.67e-11;
+fmax = 150;
+M = l.^(-3/5)*M0;
+q1 = q';
+R = (1-e).*l.^(2/5).*2.66.*q1.^(2/5)./(1+q1).^(4/5);
+[E,Q] = meshgrid(log10(q),e);
+contour(E,Q,R',0.5:0.25:2);
+xlabel('Mass Ratio(q)')
+ylabel('Eccentricity(e)')
 
-end
