@@ -3,7 +3,6 @@ import math
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
-
 w_0 = 0.3125e-3
 lambda1 = 1064e-9
 pi = math.pi
@@ -48,14 +47,15 @@ f2.set_yticks([0])
 # 求解相位的平面分布
 
 y = np.linspace(-0.8e-2,0.8e-2,512)
-X,Y = np.meshgrid(x,y)
+Y, X = np.meshgrid(x,y)
 phi_l = Phi(X,Y,5e-2*np.ones(X.shape)) # z = 5cm 处的相位分布
 
 fig2 = plt.figure()
-ax2 = Axes3D(fig2)
+ax2 = fig2.add_subplot(121, projection = '3d')
 ax2.plot_surface(X,Y,phi_l-2.949e5,  cmap = 'rainbow')
 ax2.set_xticks([-0.008,0,0.008])
 ax2.set_yticks([-0.008,0,0.008])
+ax2.set_title("光束未偏转的相位分布")
 
 # 光束干涉
 alpha = 10e-3   # 绕x轴旋转alpha角度
@@ -71,7 +71,6 @@ Rbeta = np.array([(1,0,0)
 X1 = np.zeros(X.shape)
 Y1 = np.zeros(X.shape)
 Z1 = np.zeros(X.shape)
-# print(X1[0,0])
 for m in range(X.shape[0]):
     for j in range(X.shape[1]):
         p = np.array([X[m,j], Y[m,j], 5e-2])@Ralpha@Rbeta
@@ -80,9 +79,9 @@ for m in range(X.shape[0]):
 
 phi_r = Phi(X1, Y1, Z1)
 E_Phi = phi_l - phi_r
-print(E_Phi.min())
 
-fig3 = plt.figure()
-ax3 = Axes3D(fig3)
+ax3 = fig2.add_subplot(122, projection = '3d')
 ax3.plot_surface(X,Y,E_Phi, cmap = 'rainbow')
+ax3.set_xticks([-0.8e-2,0, 0.8e-2])
+ax3.set_yticks([-1e-2,0, 1e-2])
 plt.show()
