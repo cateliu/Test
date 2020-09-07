@@ -29,8 +29,8 @@ y = linspace(-0.8e-2,0.8e-2,512);
 phi = Phi(X, Y, 5e-2*ones(n,h));%z = 5cm处的相位分布
 %%
 % 光束发生干涉
-alpha = 100e-3;% 最大偏转角度
-beta = 100e-3;
+alpha = 10e-3;% 最大偏转角度
+beta = 10e-3;
 
 E_L = A(X,Y,5e-2*ones(n,h)).*exp(-1i*Phi(X,Y,5e-2*ones(n,h)));
 Ralpha = [cos(alpha),0,sin(alpha);0,1,0;-sin(alpha),0,cos(alpha)];%绕y轴转动
