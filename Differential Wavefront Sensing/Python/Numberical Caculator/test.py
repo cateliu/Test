@@ -57,11 +57,11 @@ ax2.set_xticks([-0.008,0,0.008])
 ax2.set_yticks([-0.008,0,0.008])
 ax2.set_title("光束未偏转的相位分布")
 
-# 光束干涉
+# 光束旋转后的相位分布
 alpha = 10e-3   # 绕x轴旋转alpha角度
 beta = 10e-3    # 绕y轴旋转beta角度
 
-E_L = A(X,Y,5e-2*np.ones(X.shape))*np.exp(-1j*Phi(X,Y,5e-2*np.ones(X.shape))) # 本地光
+E_L = A(X,Y,5e-2*np.ones(X.shape))*np.exp(-1j*Phi(X,Y,5e-2*np.ones(X.shape))) # 本地光的高斯模型
 Ralpha = np.array([(math.cos(alpha), 0, math.sin(alpha))
     ,(0, 1, 0)
     ,(-math.sin(alpha), 0, math.cos(alpha))])
@@ -70,18 +70,25 @@ Rbeta = np.array([(1,0,0)
     ,(0,-math.sin(beta),math.cos(beta))])
 X1 = np.zeros(X.shape)
 Y1 = np.zeros(X.shape)
-Z1 = np.zeros(X.shape)
+Z1 = np.zeros(X.shape)      # 旋转后的坐标与旋转前的坐标之间的关系
 for m in range(X.shape[0]):
     for j in range(X.shape[1]):
         p = np.array([X[m,j], Y[m,j], 5e-2])@Ralpha@Rbeta
         X1[m,j], Y1[m,j],Z1[m,j] = p
 
+phi_r = Phi(X1, Y1, Z1)     # 旋转后的相位分布
+E_Phi = phi_l - phi_r       # 干涉信号的相位分布
+E_R= A(X1, Y1, Z1)*np.exp(-1j*phi_r)
 
-phi_r = Phi(X1, Y1, Z1)
-E_Phi = phi_l - phi_r
+E_S = (E_L + E_R)*np.conj(E_L + E_R)
 
 ax3 = fig2.add_subplot(122, projection = '3d')
 ax3.plot_surface(X,Y,E_Phi, cmap = 'rainbow')
 ax3.set_xticks([-0.8e-2,0, 0.8e-2])
 ax3.set_yticks([-1e-2,0, 1e-2])
+
+fig3 = plt.figure()
+ax4 = Axes3D(fig3)
+ax4.plot_surface(X,Y, E_S.real, rstride = 1, cmap = 'rainbow')
+
 plt.show()

@@ -2,7 +2,7 @@ clear
 clc
 close
 %高斯光的基本参数，光斑半径和波长
-w_0 = 0.3125e-3;
+w_0 = 4e-3;
 lambda = 1064e-9;
 % 衍生参数
 k = 2*pi/lambda;
@@ -29,8 +29,8 @@ y = linspace(-0.8e-2,0.8e-2,512);
 phi = Phi(X, Y, 5e-2*ones(n,h));%z = 5cm处的相位分布
 %%
 % 光束发生干涉
-alpha = 10e-3;% 最大偏转角度
-beta = 10e-3;
+alpha = 1e-3;% 最大偏转角度
+beta = 1e-3;
 
 E_L = A(X,Y,5e-2*ones(n,h)).*exp(-1i*Phi(X,Y,5e-2*ones(n,h)));
 Ralpha = [cos(alpha),0,sin(alpha);0,1,0;-sin(alpha),0,cos(alpha)];%绕y轴转动
@@ -44,7 +44,8 @@ end
 phi_2 = Phi(X1,Y1,Z1);
 E_R = A(X1,Y1,Z1).*exp(-1i*Phi(X1,Y1,Z1));
 E_Phi = Phi(X,Y,5e-2*ones(n,h)) - Phi(X1,Y1,Z1);
-
+E_S = (E_L+E_R).*conj(E_L+E_R);
+C = A(X,Y,5e-2*ones(n,h)).*A(X1,Y1,Z1)./(A(X,Y,5e-2*ones(n,h)).^2+A(X1,Y1,Z1).^2);
 %对曲面做最小二乘法，得到三个系数
 p = ParameterInMatrix(X,Y,E_Phi);
 sprintf('光束偏转角度为：alpha = %d, beta = %d;三个系数分别为：a = %d, b = %d, c = %d',alpha, beta, p(1),p(2),p(3))
