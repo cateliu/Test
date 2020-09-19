@@ -19,9 +19,9 @@ pi = math.pi
 k = 2*pi/lambda1
 z_r = pi*w_0**2/lambda1
 ## QPD尺寸参数
-r = np.array([5e-4,3e-5,5e-6])#np.arange(10e-6, 1e-4, 1e-6)# 0.5e-3
+r = np.arange(10e-6, 1e-4, 1e-6)# 0.5e-3
 # 角度变化量
-theta = np.arange(-10e-3,10e-3,1e-4)#np.array([1e-3,5e-3,10e-3])
+theta = np.array([1e-3,5e-3,10e-3])
 # CCD像元尺寸
 
 # 函数定义区
@@ -60,7 +60,7 @@ plt.grid()
 plt.xticks([10,30,100],size = 15)
 plt.yticks(size = 15)
 plt.title("外差效率随偏转角度的变化", size = 20)
-plt.xlabel("偏转角度/mrad",  size = 20)
+plt.xlabel("半径/um",  size = 20)
 plt.ylabel("外差效率",  size = 20)
 tk = plt.gca()
 tk.spines["top"].set_linewidth(0)
