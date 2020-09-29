@@ -34,7 +34,7 @@ mu = 30e-6;
 %%  计算60组数据
 parfor t = 1:41
     t1 = T/40*t;
-    E_3 = @(x,y) E_11(x,y).*E_22(x,y).*exp(-i*(Phi(x,y,0)-Phi(x*cos(delta),y,x*sin(delta))-2*pi*f*t1));
+    E_3 = @(x,y) E_11(x,y).*E_22(x,y).*exp(i*(Phi(x,y,0)-Phi(x*cos(delta),y,x*sin(delta))-2*pi*f*t1));
     I(:,:,t) = c(x,y,E_1,E_2,E_3,mu);
     t
 end

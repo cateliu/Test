@@ -33,26 +33,26 @@ z0 = 0;%10e-2;
 phi = Phi(X, Y, z0*ones(n,h));%z = 5cm处的相位分布
 for q = 1:length(theta1)
 % 光束发生干涉
-alpha = theta1(q);% 最大偏转角度
-beta = 0e-3;
+    alpha = theta1(q);% 最大偏转角度
+    beta = 0e-3;
 
 
-E_L = A(X,Y,5e-2*ones(n,h)).*exp(1i*Phi(X,Y,z0*ones(n,h)));
-Ralpha = [cos(alpha),0,sin(alpha);0,1,0;-sin(alpha),0,cos(alpha)];%绕y轴转动
-Rbeta = [1,0,0;0,cos(beta),sin(beta);0,-sin(beta),cos(beta)];%绕x轴转动
-for m = 1:n
-    for j = 1:h
-        R = [X(m,j) Y(m,j) z0]*Ralpha*Rbeta;
-        X1(m,j) = R(1);Y1(m,j) = R(2);Z1(m,j) = R(3);
+    E_L = A(X,Y,z0*ones(n,h)).*exp(1i*Phi(X,Y,z0*ones(n,h)));
+    Ralpha = [cos(alpha),0,sin(alpha);0,1,0;-sin(alpha),0,cos(alpha)];%绕y轴转动
+    Rbeta = [1,0,0;0,cos(beta),sin(beta);0,-sin(beta),cos(beta)];%绕x轴转动
+    for m = 1:n
+        for j = 1:h
+            R = [X(m,j) Y(m,j) z0]*Ralpha*Rbeta;
+            X1(m,j) = R(1);Y1(m,j) = R(2);Z1(m,j) = R(3);
+        end
     end
-end
-phi_2 = Phi(X1,Y1,Z1);
-E_R = A(X1,Y1,Z1).*exp(1i*Phi(X1,Y1,Z1));
-E_Phi = Phi(X,Y,z0*ones(n,h)) - Phi(X1,Y1,Z1);
+    phi_2 = Phi(X1,Y1,Z1);
+    E_R = A(X1,Y1,Z1).*exp(1i*Phi(X1,Y1,Z1));
+    E_Phi = Phi(X,Y,z0*ones(n,h)) - Phi(X1,Y1,Z1);
 
-%对曲面做最小二乘法，得到三个系数
-p = ParameterInMatrix(X,Y,E_Phi);
-a(q) = p(1);
+    %对曲面做最小二乘法，得到三个系数
+    p = ParameterInMatrix(X,Y,E_Phi);
+    a(q) = p(1);
 end
 %%
 a1 = a/(-k);
