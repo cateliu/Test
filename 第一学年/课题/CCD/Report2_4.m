@@ -6,11 +6,11 @@
 clear
 clc
 format long
-delta = 0.1e-3;
+% delta = 0.1e-3;
 f = 1623;% 频率差
 T = 1/f;
 
-w_0 = 2e-3;
+w_0 = 0.3125e-3;
 lambda = 1064e-9;
 k = 2*pi/lambda;
 z_r = pi*1*w_0^2/lambda;
@@ -22,21 +22,25 @@ A = @(x,y,z) 1./w(z).*exp((-x.^2-y.^2)./w(z).^2);
 Phi = @(x,y,z) k*((-x.^2-y.^2).*R_z(z)+z)-phi_z(z);
 
 E_11 = @(x,y) A(x,y,0);
-E_22 = @(x,y) A(x*cos(delta),y,x*sin(delta));
 E_1 = @(x,y) E_11(x,y).*E_11(x,y);
-E_2 = @(x,y) E_22(x,y).*E_22(x,y);
+
 
 Phi_2 = @(x,y) Phi(x.*cos(delta),y,x.*sin(delta));
 
 x = -160:159;
 y = -128:127;
 mu = 30e-6;
+theta = 1e-3:1e-3:50e-3;
 %%  计算60组数据
-parfor t = 1:41
-    t1 = T/40*t;
-    E_3 = @(x,y) E_11(x,y).*E_22(x,y).*exp(i*(Phi(x,y,0)-Phi(x*cos(delta),y,x*sin(delta))-2*pi*f*t1));
+for t = 1:length(theta)
+%     t1 = T/40*t;
+    delta = theta(t);
+    E_22 = @(x,y) A(x*cos(delta),y,x*sin(delta));
+    E_2 = @(x,y) E_22(x,y).*E_22(x,y);
+    
+    E_3 = @(x,y) E_11(x,y).*E_22(x,y).*exp(i*(Phi(x,y,0)-Phi(x*cos(delta),y,x*sin(delta))));
     I(:,:,t) = c(x,y,E_1,E_2,E_3,mu);
-    t
+    t/length(theta)
 end
 %% 消除直流量
 temp = deletAverage(I);
@@ -65,18 +69,19 @@ mesh(phi_smoth_fit)
 xlabel('x轴像素');ylabel('y轴像素');zlabel('相位 [rad]');title('消除跳变后的相位分布与未消除初始相位分布的比较')
 %%
 function T1 = c(x,y,E_1,E_2,E_3,mu)
-for j = 1:length(x)
-    for k = 1:length(y)
-        xmin = x(j)*mu;
-        xmax = (x(j)+1)*mu;
-        ymin = y(k)*mu;
-        ymax = (y(k)+1)*mu;
-        I_1 = integral2(E_1,xmin,xmax,ymin,ymax,'Method','iterated');
-        I_2 = integral2(E_2,xmin,xmax,ymin,ymax,'Method','iterated');
-        I_3 = integral2(E_3,xmin,xmax,ymin,ymax,'Method','iterated');
-        T1(j,k) = 2*I_3+I_1+I_2;
+    for j = 1:length(x)
+        for k = 1:length(y)
+            xmin = x(j)*mu;
+            xmax = (x(j)+1)*mu;
+            ymin = y(k)*mu;
+            ymax = (y(k)+1)*mu;
+            I_1 = integral2(E_1,xmin,xmax,ymin,ymax,'Method','iterated');
+            I_2 = integral2(E_2,xmin,xmax,ymin,ymax,'Method','iterated');
+            I_3 = integral2(E_3,xmin,xmax,ymin,ymax,'Method','iterated');
+            T1(j,k) = 2*I_3./sqrt(I_1.*I_2);
+        end
+        j
     end
-end
 end
 
 function T = deletAverage(I)
