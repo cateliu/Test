@@ -29,8 +29,9 @@ y = linspace(-5.12e-3,5.12e-3,512);
 %%
 theta1 = -100e-3:1e-4:100e-3;
 
-z0 = 0;%10e-2;
+z0 = 10e-2;%10e-2;
 phi = Phi(X, Y, z0*ones(n,h));%z = 5cm处的相位分布
+
 for q = 1:length(theta1)
 % 光束发生干涉
     alpha = theta1(q);% 最大偏转角度
@@ -49,7 +50,7 @@ for q = 1:length(theta1)
     phi_2 = Phi(X1,Y1,Z1);
     E_R = A(X1,Y1,Z1).*exp(1i*Phi(X1,Y1,Z1));
     E_Phi = Phi(X,Y,z0*ones(n,h)) - Phi(X1,Y1,Z1);
-
+    
     %对曲面做最小二乘法，得到三个系数
     p = ParameterInMatrix(X,Y,E_Phi);
     a(q) = p(1);

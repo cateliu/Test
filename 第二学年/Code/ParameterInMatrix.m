@@ -3,7 +3,7 @@
 function [p, Para] = ParameterInMatrix(x,y,z)
 % CCD_x = 320;
 % CCD_y = 256;
-[a b] = size(X);
+[a b] = size(x);
 Para_1_1 = sum(sum(x.*x));
 Para_1_2 = sum(sum(x.*y));
 Para_1_3 = sum(sum(x));
