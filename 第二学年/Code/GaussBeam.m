@@ -27,7 +27,7 @@ y = linspace(-5.12e-3,5.12e-3,512);
 [X, Y] = meshgrid(x, y);
 [n,h] = size(X);
 %%
-theta1 = -100e-3:1e-4:100e-3;
+theta1 = -1e-3:1e-4:1e-3;
 
 z0 = 10e-2;%10e-2;
 phi = Phi(X, Y, z0*ones(n,h));%z = 5cm处的相位分布
