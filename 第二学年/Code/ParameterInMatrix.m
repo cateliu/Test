@@ -1,6 +1,7 @@
 % clear
 % clc
 function [p, Para] = ParameterInMatrix(x,y,z)
+format long
 % CCD_x = 320;
 % CCD_y = 256;
 [a b] = size(x);

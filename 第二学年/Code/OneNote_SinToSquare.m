@@ -1,11 +1,43 @@
 clc
 clear
 close
+
+
+%%
 % 画出SED上的电压信号强度曲线-正弦曲线
 t = 0:0.01:30;
 Sin = 3 + sin(t);
 plot(t,Sin,'k', 'LineWidth',2);  %k表示黑色
 
+subplot 311
+plot(t, Sin,'k', 'LineWidth',2 )
+ylim([0 4])
+hold on 
+plot(t, 3+0*Sin, 'k--')
+xticks([])
+yticks([0])
+title("外差信号")
+
+%%
+
+subplot 312
+plot(t, Sin-3, 'k', 'LineWidth',2)
+hold on 
+plot(t, 0*Sin, 'k--')
+yticks([0])
+xticks([])
+title("滤波后的外差信号")
+
+subplot 313
+Square(find(Sin>=3)) = 1;
+Square(find(Sin<3)) = 0;
+plot(t,  Square, 'k', 'LineWidth',2)
+hold on 
+plot(t, 0*Sin, 'k--')
+yticks([0])
+xticks([])
+title("经比较器后产生的方波信号")
+%%
 % 画出经过比较器(Comparator)后形成的方波
 Square = Sin;
 Square(find(Sin>=3)) = 1;
@@ -54,6 +86,6 @@ plot(t, Virt_line1, 'k--');
 plot(t, Virt_line2, 'k--');
 plot(t, Virt_line3, 'k--');
 
-ylim([-7,5]);
+ylim([-1.5,5]);
 xticks([]);
 yticks([]);
