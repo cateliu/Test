@@ -13,7 +13,7 @@ import scipy.integrate
 
 #%%
 ## 高斯光参数定义区
-w_0 = 1e-3 
+w_0 = 0.3125e-3 
 lambda1 = 1064e-9
 pi = math.pi
 k = 2*pi/lambda1
