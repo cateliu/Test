@@ -1,10 +1,13 @@
 % clear
 % clc
-function [p, Para] = ParameterInMatrix(x,y,z)
+function [p, Para] = ParameterInMatrix(z,d)
 format long
 % CCD_x = 320;
 % CCD_y = 256;
-[a b] = size(x);
+[a, b] = size(z);
+[x y] = meshgrid( d*(1:b), d*(1:a));
+
+
 Para_1_1 = sum(sum(x.*x));
 Para_1_2 = sum(sum(x.*y));
 Para_1_3 = sum(sum(x));

@@ -4,7 +4,7 @@ close
 format long
 %高斯光的基本参数，光斑半径和波长
 
-w_0 = 1e-3;0.3125e-3 ;%+ 0.3125e-3*(d-1)*0.5;
+w_0 = 1e-3 ;%+ 0.3125e-3*(d-1)*0.5;
 lambda = 1064e-9;
 % 衍生参数
 k = 2*pi/lambda;
@@ -29,16 +29,16 @@ y = linspace(-5.12e-3,5.12e-3,512);
 [X, Y] = meshgrid(x, y);
 [n,h] = size(X);
 %%
+for f = 1:4
+    theta1 = 10e-3;-1e-6:1e-7:1e-6;
 
-    theta1 = 10e-3;-10e-3:1e-3:10e-3;
- for f = 1:1
-    z0 = 10e-2;%10e-2;
+    z0 = 0;10e-2*(f-1);%10e-2;
     phi = Phi(X, Y, z0*ones(n,h));%z = 5cm处的相位分布
 
     for q = 1:length(theta1)
     % 光束发生干涉
         alpha = theta1(q);% 最大偏转角度
-        beta = 0e-3;
+        beta = 10e-3;
 
 
         E_L = A(X,Y,z0*ones(n,h)).*exp(1i*Phi(X,Y,z0*ones(n,h)));
@@ -51,17 +51,19 @@ y = linspace(-5.12e-3,5.12e-3,512);
             end
         end
         phi_2 = Phi(X1,Y1,Z1);
-        E_R = A(X1,Y1,Z1).*exp(1i*Phi(X1,Y1,Z1));
+        E_R = A(X1,Y1,Z1).*exp(1i*(Phi(X1,Y1,Z1)+pi/2*(f-1)));
+        P(:,:,f) = (E_L+E_R).*conj(E_L+E_R);
         E_Phi = Phi(X,Y,z0*ones(n,h)) -( Phi(X1,Y1,Z1));
 
         %对曲面做最小二乘法，得到三个系数
-        p = ParameterInMatrix(X,Y,E_Phi );%+ (d-1)*rand(512,640)*10^(-(f-1)*0.2)
+        phase = PhaseUnwrapping(atan(tan(E_Phi)),0.5 , pi);
+        p = ParameterInMatrix(phase, 20e-6);%+ (d-1)*rand(512,640)*10^(-(f-1)*0.2)
         a(q, f) = p(1);
     end
-end
 
+end
 %%
-a1 = a/(-k);
+% a1 = a/(-k);
 % semilogx(10.^(-((1:31)-1)*0.3),(a1-10e-3)*1e6,'LineWidth',2)
 % xlim([10^(-5),1])
 % xlabel("相位误差/rad")
@@ -70,7 +72,48 @@ a1 = a/(-k);
 % xticks([10^(-5) 10^(-3) 10^(-2) 1])
 % legend("没有相位误差","存在相位误差")
 % grid on
+figure
+phi1 = atan((P(:,:,4)-P(:,:,2))./((P(:,:,1)-P(:,:,3))));
+mesh(phi1*1e6);xlim([1 640]);ylim([1 512]);xlabel("x轴");ylabel("y轴")
+figure
+subplot 221
+mesh(P(:,:,1))
+xlim([0 640]);xticks([0 640])
+ylim([0 512]);yticks([512])
+title("t=0")
+subplot 222
+mesh(P(:,:,2))
+xlim([0 640]);xticks([0 640])
+ylim([0 512]);yticks([512])
+title("t=T/4")
+subplot 223
+mesh(P(:,:,3))
+xlim([0 640]);xticks([0 640])
+ylim([0 512]);yticks([512])
+title("t=T/2")
+subplot 224
+mesh(P(:,:,4));xlim([0 640]);xticks([0 640]);ylim([0 512]);yticks([512])
+title("t=3T/4")
+%%
+figure
+[W,Q] = meshgrid(151:483,103:437);
+mesh(W,Q, phi1(103:437,151:483));xlim([151 483]);ylim([103 437]);xlabel("x轴");ylabel("y轴")
 
+figure
+u = phi1(103:437,151:483);
+plot(103:437,u(:,1))
+xlim([103,437])
+yticks([-0.02,0 0.02])
+grid on
+xlabel("y轴")
+ylabel("相位/rad")
+%%
+
+Phi1 = PhaseUnwrapping(phi1,0.5,pi);
+% for j = 1:512
+%     Phi1(j,:) = PhaseUnwrapping(phi1(j,:),0.5,pi);
+% end
+% mesh(Phi1)
 % plot((0.3125e-3 + 0.3125e-3*([1:20]-1)*0.2)*1e3, (a1-10e-3)*1e6,'LineWidth',2)
 % xlim([0.3125 1.5])
 % grid on
@@ -78,14 +121,14 @@ a1 = a/(-k);
 % xlabel("光斑半径/mm")
 % ylabel("拟合误差/urad")
 
-plot(theta1*1e3,(a1-theta1)*1e3,'LineWidth',2)
-plot(0.3125e-3 + 0.3125e-3*([1:20]-1)*0.2, (a1-10e-3)*1e3,'LineWidth',2)
-plot(theta1*1e3,a1)
-xticks([-100 -50 0 50 100])
-yticks([-100 -50 0 50 100])
-xlim([-100,100])
-xlabel("偏转角度/mrad")
-ylabel('测量值/mrad')
+% plot(theta1'*1e3,(a)*1e3,'LineWidth',2)
+% plot(0.3125e-3 + 0.3125e-3*([1:20]-1)*0.2, (a1-10e-3)*1e3,'LineWidth',2)
+% plot(theta1*1e3,a1)
+% xticks([-100 -50 0 50 100])
+% yticks([-100 -50 0 50 100])
+% xlim([-100,100])
+% xlabel("偏转角度/mrad")
+% ylabel('测量值/mrad')
 % grid on
 % legend("w=w0","w=2w0","w=3w0","w=4w0","w=5w0","w=6w0","w=7w0","w=8w0")
 
