@@ -5,18 +5,18 @@ function Phi = PhaseUnwrapping(phi,judge,jump)
 %     phi = mod(x,jump);
     [m,n] = size(phi);
     if isvector(phi)
-        plot(phi);
+%         plot(phi);
         v = vertical(phi, judge);
         c0 = 0;
         c = count(v,c0);
-        figure
+%         figure
         % 判断行向量还是列向量
         if isrow(phi)
             Phi = phi+jump*c;
         else
             Phi = phi+jump*c';
         end
-        plot(Phi)
+%         plot(Phi)
         
     elseif m>1 && n>1
         Phi = TPhaseUnwrapping(phi,judge, jump);

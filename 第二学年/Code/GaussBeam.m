@@ -56,7 +56,7 @@ for f = 1:4
         E_Phi = Phi(X,Y,z0*ones(n,h)) -( Phi(X1,Y1,Z1));
 
         %对曲面做最小二乘法，得到三个系数
-        phase = PhaseUnwrapping(atan(tan(E_Phi)),0.5 , pi);
+        phase = PhaseUnwrapping(atan2(tan(E_Phi)),1.5 , pi);
         p = ParameterInMatrix(phase, 20e-6);%+ (d-1)*rand(512,640)*10^(-(f-1)*0.2)
         a(q, f) = p(1);
     end
