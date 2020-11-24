@@ -1,0 +1,23 @@
+module ctr_uart(
+	input 	Clk;
+	input 	Rst_n;
+	input 	[31:0]T;
+	input 	TX_Done;
+	input 	wrt_en;
+	input 	Send_en;
+	output 	[7:0]data;
+	output 	data_t;
+);
+
+
+	ctrl ctrl1(
+		.Clk			(Clk		),
+		.Rst_n		(Rst_n	),
+		.T				(T			),
+		.TX_Done		(TX_Done	),
+		.wrt_en		(wrt_en	),
+		.Send_en		(Send_en),
+		.data			(data		)
+	);
+
+endmodule

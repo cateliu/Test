@@ -1,0 +1,115 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 dD:/Altera/Documents/Key_Cnt/prj/simulation/modelsim
+vcounter
+!s110 1606223696
+!i10b 1
+!s100 eWI`ec:HDPc]UHRRCOaDe3
+IHSn7JzKghd7]GPZo;:QaR1
+Z1 V`JN@9S9cnhjKRR_L]QIcM3
+R0
+w1606223674
+8D:/Altera/Documents/Key_Cnt/rtl/counter.v
+FD:/Altera/Documents/Key_Cnt/rtl/counter.v
+L0 1
+Z2 OV;L;10.3d;59
+r1
+!s85 0
+31
+!s108 1606223696.446000
+!s107 D:/Altera/Documents/Key_Cnt/rtl/counter.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+D:/Altera/Documents/Key_Cnt/rtl|D:/Altera/Documents/Key_Cnt/rtl/counter.v|
+!i113 1
+Z3 o-vlog01compat -work work
+Z4 !s92 -vlog01compat -work work +incdir+D:/Altera/Documents/Key_Cnt/rtl
+vctrl
+Z5 !s110 1606223450
+!i10b 1
+!s100 ?1LU8j93kYPe3_n2_^kn93
+ITU`2?azCoMTc8Ge7_Y8oG2
+R1
+R0
+w1606218853
+8D:/Altera/Documents/Key_Cnt/rtl/ctrl.v
+FD:/Altera/Documents/Key_Cnt/rtl/ctrl.v
+L0 1
+R2
+r1
+!s85 0
+31
+!s108 1606223450.741000
+!s107 D:/Altera/Documents/Key_Cnt/rtl/ctrl.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+D:/Altera/Documents/Key_Cnt/rtl|D:/Altera/Documents/Key_Cnt/rtl/ctrl.v|
+!i113 1
+R3
+R4
+vkey_time_cnt
+!s110 1606223898
+!i10b 1
+!s100 o?aB2FP9AbMfB1K;NXfTB0
+IY>MO5_UMm1>milDX1CjeA2
+R1
+R0
+w1606223873
+8D:/Altera/Documents/Key_Cnt/rtl/key_time_cnt.v
+FD:/Altera/Documents/Key_Cnt/rtl/key_time_cnt.v
+L0 1
+R2
+r1
+!s85 0
+31
+!s108 1606223898.631000
+!s107 D:/Altera/Documents/Key_Cnt/rtl/key_time_cnt.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+D:/Altera/Documents/Key_Cnt/rtl|D:/Altera/Documents/Key_Cnt/rtl/key_time_cnt.v|
+!i113 1
+R3
+R4
+vkey_time_cnt_tb
+R5
+!i10b 1
+!s100 joAhI=44C9T2m^b;4F4ID3
+IbZJE8Q7DQRZ19KTaAmH4d1
+R1
+R0
+w1606223396
+8D:/Altera/Documents/Key_Cnt/prj/testbench/key_time_cnt_tb.v
+FD:/Altera/Documents/Key_Cnt/prj/testbench/key_time_cnt_tb.v
+L0 4
+R2
+r1
+!s85 0
+31
+!s108 1606223450.807000
+!s107 D:/Altera/Documents/Key_Cnt/prj/testbench/key_time_cnt_tb.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+D:/Altera/Documents/Key_Cnt/prj/testbench|D:/Altera/Documents/Key_Cnt/prj/testbench/key_time_cnt_tb.v|
+!i113 1
+R3
+!s92 -vlog01compat -work work +incdir+D:/Altera/Documents/Key_Cnt/prj/testbench
+vuart_byte_tx
+R5
+!i10b 1
+!s100 @b5B<iHEmz^:a9QGkAPXg1
+ImDl94=zEDO`gU^?XL;=Jm3
+R1
+R0
+w1443531388
+8D:/Altera/Documents/Key_Cnt/rtl/uart_byte_tx.v
+FD:/Altera/Documents/Key_Cnt/rtl/uart_byte_tx.v
+L0 1
+R2
+r1
+!s85 0
+31
+!s108 1606223450.358000
+!s107 D:/Altera/Documents/Key_Cnt/rtl/uart_byte_tx.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+D:/Altera/Documents/Key_Cnt/rtl|D:/Altera/Documents/Key_Cnt/rtl/uart_byte_tx.v|
+!i113 1
+R3
+R4

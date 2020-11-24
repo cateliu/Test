@@ -1,0 +1,38 @@
+`timescale 1ns/1ns
+
+`define clk_period 20
+
+module Key_Cnt_tb;
+
+	reg Clk;
+	reg Rst_n;
+	
+	reg press1;
+	reg press2;
+	
+	wire [7:0]Data;
+	
+	Key_Cnt key_cnt_tb(
+		.Clk		(Clk		),
+		.Rst_n	(Rst_n	),
+		.key1		(press1	),
+		.key2		(press2	),
+		.Rs232_Tx(Data		)
+	);
+	
+	initial Clk = 1;
+	
+	always#(`clk_period/2) Clk = ~Clk;
+	
+	initial begin
+		Rst_n = 1'b0;
+		press1 = 0;
+		press1 = 0;
+		#(`clk_period*2+1) Rst_n = 1'b1;
+		#(`clk_period*2) press1 = 1;
+		#(`clk_period*5) press1 = 0;
+		
+	end
+	
+	
+endmodule

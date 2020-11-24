@@ -1,0 +1,166 @@
+# Reading D:/Altera/15.0/modelsim_ase/tcl/vsim/pref.tcl
+# do Key_Cnt_run_msim_rtl_verilog.do
+# if {[file exists rtl_work]} {
+# 	vdel -lib rtl_work -all
+# }
+# vlib rtl_work
+# vmap work rtl_work
+# Model Technology ModelSim PE vmap 10.3d Lib Mapping Utility 2014.10 Oct  7 2014
+# vmap -modelsim_quiet work rtl_work 
+# Copying D:/Altera/15.0/modelsim_ase/win32aloem/../modelsim.ini to modelsim.ini
+# Modifying modelsim.ini
+# ** Warning: Copied D:/Altera/15.0/modelsim_ase/win32aloem/../modelsim.ini to modelsim.ini.
+#          Updated modelsim.ini.
+# 
+# vlog -vlog01compat -work work +incdir+D:/Altera/Documents/Key_Cnt/rtl {D:/Altera/Documents/Key_Cnt/rtl/counter.v}
+# Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
+# Start time: 21:10:50 on Nov 24,2020
+# vlog -reportprogress 300 -vlog01compat -work work "+incdir+D:/Altera/Documents/Key_Cnt/rtl" D:/Altera/Documents/Key_Cnt/rtl/counter.v 
+# -- Compiling module counter
+# 
+# Top level modules:
+# 	counter
+# End time: 21:10:50 on Nov 24,2020, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -vlog01compat -work work +incdir+D:/Altera/Documents/Key_Cnt/rtl {D:/Altera/Documents/Key_Cnt/rtl/uart_byte_tx.v}
+# Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
+# Start time: 21:10:50 on Nov 24,2020
+# vlog -reportprogress 300 -vlog01compat -work work "+incdir+D:/Altera/Documents/Key_Cnt/rtl" D:/Altera/Documents/Key_Cnt/rtl/uart_byte_tx.v 
+# -- Compiling module uart_byte_tx
+# 
+# Top level modules:
+# 	uart_byte_tx
+# End time: 21:10:50 on Nov 24,2020, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -vlog01compat -work work +incdir+D:/Altera/Documents/Key_Cnt/rtl {D:/Altera/Documents/Key_Cnt/rtl/key_time_cnt.v}
+# Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
+# Start time: 21:10:50 on Nov 24,2020
+# vlog -reportprogress 300 -vlog01compat -work work "+incdir+D:/Altera/Documents/Key_Cnt/rtl" D:/Altera/Documents/Key_Cnt/rtl/key_time_cnt.v 
+# -- Compiling module key_time_cnt
+# 
+# Top level modules:
+# 	key_time_cnt
+# End time: 21:10:50 on Nov 24,2020, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -vlog01compat -work work +incdir+D:/Altera/Documents/Key_Cnt/rtl {D:/Altera/Documents/Key_Cnt/rtl/ctrl.v}
+# Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
+# Start time: 21:10:50 on Nov 24,2020
+# vlog -reportprogress 300 -vlog01compat -work work "+incdir+D:/Altera/Documents/Key_Cnt/rtl" D:/Altera/Documents/Key_Cnt/rtl/ctrl.v 
+# -- Compiling module ctrl
+# 
+# Top level modules:
+# 	ctrl
+# End time: 21:10:50 on Nov 24,2020, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# 
+# vlog -vlog01compat -work work +incdir+D:/Altera/Documents/Key_Cnt/prj/testbench {D:/Altera/Documents/Key_Cnt/prj/testbench/key_time_cnt_tb.v}
+# Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
+# Start time: 21:10:50 on Nov 24,2020
+# vlog -reportprogress 300 -vlog01compat -work work "+incdir+D:/Altera/Documents/Key_Cnt/prj/testbench" D:/Altera/Documents/Key_Cnt/prj/testbench/key_time_cnt_tb.v 
+# -- Compiling module key_time_cnt_tb
+# 
+# Top level modules:
+# 	key_time_cnt_tb
+# End time: 21:10:50 on Nov 24,2020, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# 
+# vsim -t 1ps -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cycloneive_ver -L rtl_work -L work -voptargs="+acc"  key_time_cnt_tb
+# vsim -gui "+altera" -l msim_transcript -do "Key_Cnt_run_msim_rtl_verilog.do" 
+# Start time: 21:10:50 on Nov 24,2020
+# Loading work.key_time_cnt_tb
+# Loading work.key_time_cnt
+# Loading work.counter
+# Loading work.ctrl
+# Loading work.uart_byte_tx
+# 
+# add wave *
+# view structure
+# .main_pane.structure.interior.cs.body.struct
+# view signals
+# .main_pane.objects.interior.cs.body.tree
+# run -all
+# Break key hit
+# Simulation stop requested.
+# Simulation Breakpoint: Simulation stop requested.
+# MACRO ./Key_Cnt_run_msim_rtl_verilog.do PAUSED at line 20
+add wave -position insertpoint sim:/key_time_cnt_tb/time_cnt/*
+restart
+run -all
+# Break key hit
+# Break in Module key_time_cnt_tb at D:/Altera/Documents/Key_Cnt/prj/testbench/key_time_cnt_tb.v line 15
+vlog -vlog01compat -work work +incdir+D:/Altera/Documents/Key_Cnt/rtl D:/Altera/Documents/Key_Cnt/rtl/counter.v
+# Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
+# Start time: 21:14:56 on Nov 24,2020
+# vlog -reportprogress 300 -vlog01compat -work work "+incdir+D:/Altera/Documents/Key_Cnt/rtl" D:/Altera/Documents/Key_Cnt/rtl/counter.v 
+# -- Compiling module counter
+# 
+# Top level modules:
+# 	counter
+# End time: 21:14:56 on Nov 24,2020, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog -vlog01compat -work work +incdir+D:/Altera/Documents/Key_Cnt/rtl D:/Altera/Documents/Key_Cnt/rtl/key_time_cnt.v
+# Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
+# Start time: 21:14:59 on Nov 24,2020
+# vlog -reportprogress 300 -vlog01compat -work work "+incdir+D:/Altera/Documents/Key_Cnt/rtl" D:/Altera/Documents/Key_Cnt/rtl/key_time_cnt.v 
+# -- Compiling module key_time_cnt
+# 
+# Top level modules:
+# 	key_time_cnt
+# End time: 21:14:59 on Nov 24,2020, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+restart
+# Loading work.key_time_cnt
+# Loading work.counter
+# Warning in wave window restart: (vish-4014) No objects found matching '/key_time_cnt_tb/time_cnt/key_state1'. 
+run -all
+# GetModuleFileName: 找不到指定的模块。
+# 
+# 
+# Break key hit
+# Break in Module ctrl at D:/Altera/Documents/Key_Cnt/rtl/ctrl.v line 32
+run -continue
+# Break key hit
+# Simulation stop requested.
+run -continue
+# Break key hit
+# Simulation stop requested.
+run -continue
+# Break key hit
+# Simulation stop requested.
+vlog -vlog01compat -work work +incdir+D:/Altera/Documents/Key_Cnt/rtl D:/Altera/Documents/Key_Cnt/rtl/key_time_cnt.v
+# Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
+# Start time: 21:18:08 on Nov 24,2020
+# vlog -reportprogress 300 -vlog01compat -work work "+incdir+D:/Altera/Documents/Key_Cnt/rtl" D:/Altera/Documents/Key_Cnt/rtl/key_time_cnt.v 
+# -- Compiling module key_time_cnt
+# 
+# Top level modules:
+# 	key_time_cnt
+# End time: 21:18:09 on Nov 24,2020, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+vlog -vlog01compat -work work +incdir+D:/Altera/Documents/Key_Cnt/rtl D:/Altera/Documents/Key_Cnt/rtl/key_time_cnt.v
+# Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
+# Start time: 21:18:18 on Nov 24,2020
+# vlog -reportprogress 300 -vlog01compat -work work "+incdir+D:/Altera/Documents/Key_Cnt/rtl" D:/Altera/Documents/Key_Cnt/rtl/key_time_cnt.v 
+# -- Compiling module key_time_cnt
+# 
+# Top level modules:
+# 	key_time_cnt
+# End time: 21:18:18 on Nov 24,2020, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+restart
+# Loading work.key_time_cnt
+run -all
+# GetModuleFileName: 找不到指定的模块。
+# 
+# 
+# Break key hit
+# Simulation stop requested.
+run -continue
+# Break key hit
+# Break in Module key_time_cnt_tb at D:/Altera/Documents/Key_Cnt/prj/testbench/key_time_cnt_tb.v line 15
+# WARNING: No extended dataflow license exists
+# Error: invalid command name "::.main_pane.dataflow.interior.cs.body.pw.df.c"
+# Error: invalid command name "::.main_pane.dataflow.interior.cs.body.pw.df.c"
+# Error: invalid command name "::.main_pane.dataflow.interior.cs.body.pw.df.c"
+# Error: invalid command name "::.main_pane.dataflow.interior.cs.body.pw.df.c"
+# Error: invalid command name "::.main_pane.dataflow.interior.cs.body.pw.df.c"

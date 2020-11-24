@@ -1,0 +1,15 @@
+
+State Machine - |key_time_cnt|ctrl:ctrl1|state
+Name state.WAIT state.TX_4 state.TX_3 state.TX_2 state.TX_1 
+state.WAIT 0 0 0 0 0 
+state.TX_1 1 0 0 0 1 
+state.TX_2 1 0 0 1 0 
+state.TX_3 1 0 1 0 0 
+state.TX_4 1 1 0 0 0 
+
+State Machine - |key_time_cnt|key_filter:key_filter1|state
+Name state.FILTER1 state.DOWN state.FILTER0 state.IDEL 
+state.IDEL 0 0 0 0 
+state.FILTER0 0 0 1 1 
+state.DOWN 0 1 0 1 
+state.FILTER1 1 0 0 1 

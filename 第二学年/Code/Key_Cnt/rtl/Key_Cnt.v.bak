@@ -1,0 +1,62 @@
+module Key_Cnt(
+    Clk,
+    Rst_n,
+    key1,
+    key2,
+
+    Rs232_Tx,
+    Tx_Done,
+    uart_state
+);
+    input Clk,
+    input Rst_n,
+    input key1,
+    input key2,
+
+    output reg[7:0] Rs232_Tx,
+    output reg Tx_Done,
+    output reg uart_state
+
+	reg key_flag1, key1_state1;	
+	reg key_flag2, key1_state2;	
+	reg [7:0]Data_byte;
+	reg Send_en;
+	
+    keyfilter keyfilter1(
+		.Clk		(Clk		),
+		.Rst_n		(Rst_n		),
+		.key_in		(key1		),
+		.key_flag	(key_flag1	),
+		.key_state	(key_state1	)
+	);
+	keyfilter keyfilter2(
+		.Clk		(Clk		),
+		.Rst_n		(Rst_n		),
+		.key_in		(key2		),
+		.key_flag	(key_flag2	),
+		.key_state	(key_state2	)
+	);
+	key_ctrl key_ctrl1(
+		.Clk		(Clk		),
+		.Rst_n		(Rst_n		),
+		.key_flag0	(key_flag1	),
+		.key_flag1	(key_flag2	),
+		.key_state0	(key_state1	),
+		.key_state1	(key_state2	),
+		.Data_byte	(Data_byte),
+		.Send_en	(Send_en)
+	);
+	
+    uart_byte_tx uart_byte_tx1(
+		.Clk		(Clk		),
+		.Rst_n		(Rst_n		),
+		.data_byte	(Data_byte	),
+		.send_en	(Send_en),
+		.baud_set	(3'd3),
+		
+		.Rs232_Tx	(Rs232_Tx	),
+		.Tx_Done	(Tx_Done	),
+		.uart_state	(uart_state	)
+	);
+	
+endmodule

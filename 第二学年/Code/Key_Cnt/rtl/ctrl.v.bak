@@ -1,0 +1,23 @@
+module Ctrl(
+	Clk,
+	Rst_n,
+	T,
+	Send_en
+	);
+	
+	input Clk;
+	input Rst_n;
+	input T;
+	input TX_Done;
+	
+	output Send_en;
+	
+	localparam
+		WAIT = 5'd0;
+		TX_1 = 5'd1;
+		TX_2 = 5'd2;
+		TX_3 = 5'd3;
+		TX_4 = 5'd5;
+		
+		
+endmodule

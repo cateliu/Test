@@ -1,0 +1,32 @@
+module key_time_cnt(
+	Clk,
+	Rst_n,
+	key1,
+	Data
+)
+	input Clk;
+	input Rst_n;
+	input key_1;
+	
+	output Data;
+	wire key_state1;
+	wire[31:0] T;
+	
+	key_filter key_filter1(
+		.Clk			(Clk		),
+		.Rst_n		(Rst_n	),
+		.key_in		(key1		),
+		.key_flag	(),
+		.key_state	(key_state1)
+		);
+	counter counter1(
+		.Clk			(Clk		), 
+		.Rst_n		(Rst_n	), 
+		.Cin			(~key_state1), 
+		.T				(T), 
+		.c_en			(1'b1), 
+		.M				()
+	);
+
+		
+endmodule
