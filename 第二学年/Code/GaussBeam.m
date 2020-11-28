@@ -20,17 +20,18 @@ z = -1:1e-2:1;
 theta = sqrt(lambda/pi/z_r);% 远场发射角
 z1 = theta*z;
 
-x = linspace(-6.40e-3,6.40e-3,640);
+% x = linspace(-3.20e-3,3.20e-3,320);
+x = 60e-6*[[1:320]-160];
 wx = real(A(x,0*x,0*x).*exp(1i*Phi(x,0*x,0*x)));%光强随x轴的分布
 
 % 相位分布
-
-y = linspace(-5.12e-3,5.12e-3,512);
+y = 60e-6*[[1:256]-128];
+% y = linspace(-2.56e-3,2.56e-3,256);
 [X, Y] = meshgrid(x, y);
 [n,h] = size(X);
 %%
 for f = 1:4
-    theta1 = 10e-3;-1e-6:1e-7:1e-6;
+    theta1 = 1e-8;-1e-6:1e-7:1e-6;
 
     z0 = 0;10e-2*(f-1);%10e-2;
     phi = Phi(X, Y, z0*ones(n,h));%z = 5cm处的相位分布
@@ -38,7 +39,7 @@ for f = 1:4
     for q = 1:length(theta1)
     % 光束发生干涉
         alpha = theta1(q);% 最大偏转角度
-        beta = 10e-3;
+        beta = 0;10e-3;
 
 
         E_L = A(X,Y,z0*ones(n,h)).*exp(1i*Phi(X,Y,z0*ones(n,h)));
@@ -54,10 +55,10 @@ for f = 1:4
         E_R = A(X1,Y1,Z1).*exp(1i*(Phi(X1,Y1,Z1)+pi/2*(f-1)));
         P(:,:,f) = (E_L+E_R).*conj(E_L+E_R);
         E_Phi = Phi(X,Y,z0*ones(n,h)) -( Phi(X1,Y1,Z1));
-
+        phi(:,:,f) = E_Phi;
         %对曲面做最小二乘法，得到三个系数
-        phase = PhaseUnwrapping(atan2(tan(E_Phi)),1.5 , pi);
-        p = ParameterInMatrix(phase, 20e-6);%+ (d-1)*rand(512,640)*10^(-(f-1)*0.2)
+        phase = PhaseUnwrapping(atan2(sin(E_Phi),cos(E_Phi)),3 , 2*pi);
+        p = ParameterInMatrix(phase, 60e-6);%+ (d-1)*rand(512,640)*10^(-(f-1)*0.2)
         a(q, f) = p(1);
     end
 
@@ -74,25 +75,27 @@ end
 % grid on
 figure
 phi1 = atan((P(:,:,4)-P(:,:,2))./((P(:,:,1)-P(:,:,3))));
-mesh(phi1*1e6);xlim([1 640]);ylim([1 512]);xlabel("x轴");ylabel("y轴")
+mesh(phi1*1e6);xlim([1 320]);ylim([1 256]);xlabel("x轴");ylabel("y轴")
 figure
 subplot 221
 mesh(P(:,:,1))
-xlim([0 640]);xticks([0 640])
-ylim([0 512]);yticks([512])
+xlim([0 320]);xticks([0 320])
+ylim([0 256]);yticks([256])
 title("t=0")
 subplot 222
 mesh(P(:,:,2))
-xlim([0 640]);xticks([0 640])
-ylim([0 512]);yticks([512])
+xlim([0 320]);xticks([0 320])
+ylim([0 256]);yticks([256])
 title("t=T/4")
 subplot 223
 mesh(P(:,:,3))
-xlim([0 640]);xticks([0 640])
-ylim([0 512]);yticks([512])
+xlim([0 320]);xticks([0 320])
+ylim([0 256]);yticks([256])
 title("t=T/2")
 subplot 224
-mesh(P(:,:,4));xlim([0 640]);xticks([0 640]);ylim([0 512]);yticks([512])
+mesh(P(:,:,4));
+xlim([0 320]);xticks([0 320])
+ylim([0 256]);yticks([256])
 title("t=3T/4")
 %%
 figure

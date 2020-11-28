@@ -17,13 +17,13 @@ A = @(x,y,z) 1./w(z).*exp((-x.^2-y.^2)./w(z).^2);
 Phi = @(x,y,z) k*((-x.^2-y.^2).*R_z(z)+z)-phi_z(z);
 E = @(x,y,z) A(x,y,z).*exp(-i*Phi(x,y,z));
 % CCD的像素分布
-y = -128:127;
-x = -160:159;
+y = [1:256]-128;-128:127;
+x = [1:320]-160;-160:159;
 % 绕x轴旋转角度
 
 for t = 1
-    alpha = 0.1e-3*t;
-    delta = 0.1e-3;
+    alpha = 10e-3;0.1e-3*t;
+    delta = 0;0.1e-3;
     E_1 = @(x,y) A(x,y,0).*A(x,y,0);
     E_2 = @(x,y) A(x*cos(delta) - y*sin(alpha)*sin(delta), y*cos(alpha), x*sin(delta) + y*cos(delta)*sin(alpha)).*A(x*cos(delta) - y*sin(alpha)*sin(delta), y*cos(alpha), x*sin(delta) + y*cos(delta)*sin(alpha));
     E_3 = @(x,y) A(x,y,0).*A(x*cos(delta) - y*sin(alpha)*sin(delta), y*cos(alpha), x*sin(delta) + y*cos(delta)*sin(alpha)).*exp(-i.*(Phi(x,y,0)-Phi(x*cos(delta) - y*sin(alpha)*sin(delta), y*cos(alpha), x*sin(delta) + y*cos(delta)*sin(alpha))));

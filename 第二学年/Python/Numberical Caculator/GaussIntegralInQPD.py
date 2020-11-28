@@ -21,7 +21,7 @@ z_r = pi*w_0**2/lambda1
 ## QPD尺寸参数
 r = np.arange(10e-6, 1e-4, 1e-6)# 0.5e-3
 # 角度变化量
-theta = np.array([1e-3,5e-3,10e-3])
+theta = np.array([0e-3,1e-3,5e-3,10e-3])
 # CCD像元尺寸
 
 # 函数定义区
@@ -34,6 +34,7 @@ E_1 =   lambda x,y:         A(x,y,0)**2
 
 def HeterInQPD(r,theta):      # 外差效率-(偏转角度,半径)
     O = np.zeros([r.size, theta.size], complex)
+    C = np.zeros([r.size, theta.size])
     for i in range(0,np.size(theta)):
         E_2 = lambda x,y:   A(x*np.cos(theta[i]),y,x*np.sin(theta[i]))**2
         E_3_real = lambda x,y:   A(x,y,0)*A(x*np.cos(theta[i]),y,x*np.sin(theta[i]))*np.cos(Phi(x,y,0)-Phi(x*np.cos(theta[i]),y,x*np.sin(theta[i])))
@@ -46,20 +47,22 @@ def HeterInQPD(r,theta):      # 外差效率-(偏转角度,半径)
             
             I3 = I3_real - 1j*I3_img
             O[m,i] = I3/(I2*I1)**0.5
+            e = abs(O[m,i])
+            C[m,i] = 2*math.sqrt(I1*I2)*e/(I1+I2);
         print("完成度：",(i+1)/np.size(theta))
         Eta = np.abs(O)**2
-    return Eta
+    return Eta, C
 
-Eta = HeterInQPD(r,theta)  
+Eta, C= HeterInQPD(r,theta)  
 #%%
 plt.figure(figsize = (8,6), dpi = 1200)
 # plt.plot(theta*1e3,Eta[0,:], linewidth = 3)
 # plt.plot(theta*1e3,Eta[0,:],theta*1e3,Eta[1,:],theta*1e3,Eta[2,:], linewidth = 3)
-plt.plot(r*1e6,Eta[:,0],r*1e6,Eta[:,1],r*1e6,Eta[:,2],linewidth = 3)
+plt.plot(r*1e6,C[:,0],r*1e6,C[:,1],r*1e6,C[:,2],linewidth = 3)
 plt.grid()
 plt.xticks([10,30,100],size = 15)
 plt.yticks(size = 15)
-plt.title("外差效率随偏转角度的变化", size = 20)
+plt.title("外差效率随的变化", size = 20)
 plt.xlabel("半径/um",  size = 20)
 plt.ylabel("外差效率",  size = 20)
 tk = plt.gca()
