@@ -4,7 +4,7 @@ close
 format long
 %高斯光的基本参数，光斑半径和波长
 
-w_0 = 1e-3 ;%+ 0.3125e-3*(d-1)*0.5;
+w_0 = 0.3125e-3 ;%+ 0.3125e-3*(d-1)*0.5;
 lambda = 1064e-9;
 % 衍生参数
 k = 2*pi/lambda;
@@ -30,10 +30,11 @@ y = 60e-6*[[1:256]-128];
 [X, Y] = meshgrid(x, y);
 [n,h] = size(X);
 %%
+theta1 = -10e-3:1e-4:10e-3;-1e-6:1e-7:1e-6;
 for f = 1:4
-    theta1 = 1e-3;-1e-6:1e-7:1e-6;
+    
 
-    z0 = 0;10e-2*(f-1);%10e-2;
+    z0 = 10e-2*(f-1);%10e-2;
     phi = Phi(X, Y, z0*ones(n,h));%z = 5cm处的相位分布
 
     for q = 1:length(theta1)
@@ -52,17 +53,21 @@ for f = 1:4
             end
         end
         phi_2 = Phi(X1,Y1,Z1);
-        E_R = A(X1,Y1,Z1).*exp(1i*(Phi(X1,Y1,Z1)+pi/2*(f-1)));
-        P(:,:,f) = (E_L+E_R).*conj(E_L+E_R);
-        E_Phi = Phi(X,Y,z0*ones(n,h)) -( Phi(X1,Y1,Z1));
-        phi(:,:,f) = E_Phi;
+%         E_R = A(X1,Y1,Z1).*exp(1i*(Phi(X1,Y1,Z1)));
+%         P(:,:,f) = (E_L+E_R).*conj(E_L+E_R);
+        E_Phi = Phi(X1,Y1,Z1)- Phi(X,Y,z0*ones(n,h));
+%         phi(:,:,f) = E_Phi;
         %对曲面做最小二乘法，得到三个系数
-        phase = PhaseUnwrapping(atan2(sin(E_Phi),cos(E_Phi)),3 , 2*pi);
-        p = ParameterInMatrix(phase, 60e-6);%+ (d-1)*rand(512,640)*10^(-(f-1)*0.2)
+%         phase = PhaseUnwrapping(atan2(sin(E_Phi),cos(E_Phi)),3 , 2*pi);
+        p = ParameterInMatrix(E_Phi, 60e-6);%+ (d-1)*rand(512,640)*10^(-(f-1)*0.2)
         a(q, f) = p(1);
     end
-
+    f
 end
+alpha = a/k*1e3;
+theta = theta1*1e3;
+plot(theta,alpha(:,1),theta,alpha(:,2),theta,alpha(:,3),theta,alpha(:,4));
+legend("z=0","z=10cm","z=20cm","z=30cm")
 %%
 % a1 = a/(-k);
 % semilogx(10.^(-((1:31)-1)*0.3),(a1-10e-3)*1e6,'LineWidth',2)
